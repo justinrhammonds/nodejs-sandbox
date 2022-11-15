@@ -1,9 +1,8 @@
 // this is just a brute force solution
 // TODO: could refactor filter methods into 1 that takes parameter for either most/least common treatments
-// TODO: could refactor a & b to be one Submarine class
 const { testInput, myInput } = require('./data.js');
 
-console.log(b(myInput));
+console.log(b(testInput));
 
 
 function b(input) {
@@ -48,7 +47,7 @@ function filterOxygen(input) {
         if (group.filter(g => g == 0).length > group.filter(g => g == 1).length) {
             input = input.filter(bit => bit[i] == 1);
         } else {
-            input = input.filter(bit => bit[i] == 0); // if values equal, keep the 1s
+            input = input.filter(bit => bit[i] == 0); // if values equal, keep the 0s
         }
     }
     return input[0];
