@@ -1,5 +1,3 @@
-const { splitInputString } = require('../utils.js');
-
 let _testInput = firstParse(`7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
 
 22 13 17 11  0
@@ -18,8 +16,7 @@ let _testInput = firstParse(`7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,2
 10 16 15  9 19
 18  8 23 26 20
 22 11 13  6  5
- 2  0 12  3  7
-`);
+ 2  0 12  3  7`);
 
 
 testInput = {
@@ -35,9 +32,17 @@ function parseInstructions(input) {
     return input.split(',');
 }
 
-// not finished
 function parseBoards(input) {
-    return input.filter(i => i !== '\n').map(i => i.split(/\s*/));
+    //splits into individual boards/rows and removes new lines, empty strings and whitespace
+    return input
+        .filter(i => i !== '\n')
+        .map((i) => i
+            .split(/\n/)
+            .map((ii) => ii
+                .split(/\s/)
+                .filter(ii => ii !== '')
+            )
+        );
 }
 
 console.log(testInput.instructions);
