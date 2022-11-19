@@ -1,7 +1,9 @@
 const { testInput, myInput } = require('./data.js');
 
-const result = a(testInput);
+console.time("A sync timing");
+const result = a(myInput);
 console.log(sumOfRemainingNumbers(result.board) * result.number);
+console.timeEnd("A sync timing");
 
 function a(input) {
     for (let numIndex = 0; numIndex < input.instructions.length; numIndex++) {
@@ -34,6 +36,46 @@ function markBoards(boards, number) {
     
     return boards;
 }
+
+//////////////// ASYNC REFACTOR
+console.time("A ASYNC timing");
+_a(myInput).then(result => (sumOfRemainingNumbers(result.board) * result.number)).then(console.log).then(console.timeEnd("A ASYNC timing"));
+
+async function _a(input) {
+    for (let numIndex = 0; numIndex < input.instructions.length; numIndex++) {
+
+        // mark boards
+        input.sets = await _markBoards(input.sets, input.instructions[numIndex]);
+
+        let winner = getFirstWinner(input.sets);
+        if (winner != null) {
+            return {
+                number: input.instructions[numIndex],
+                board: winner
+            }
+        }
+    }
+
+    return null;
+}
+
+async function _markBoards(boards, number) {
+    // mark boards
+    const tasks = boards.map(b => _markBoard(b, number));
+    return await Promise.all(tasks);
+}
+
+async function _markBoard(board, number) {
+    for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
+        if (board[rowIndex].some(num => num == number)) {
+            board[rowIndex].splice(board[rowIndex].findIndex(item => item == number), 1, 'x');
+        }
+    }
+
+    return board;
+}
+
+///////////////////////////////
 
 function getFirstWinner(boards) {
     for (let boardIndex = 0; boardIndex < boards.length; boardIndex++) {
@@ -74,4 +116,4 @@ function sumOfRemainingNumbers(board) {
     return board.flat().filter(num => num != 'x').reduce((prev, curr) => prev + parseInt(curr), 0);
 }
 
-module.exports = { isWinner, getFirstWinner, sumOfRemainingNumbers, markBoards }
+module.exports = { isWinner, getFirstWinner, sumOfRemainingNumbers, markBoards, _markBoards }
