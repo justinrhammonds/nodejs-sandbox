@@ -10,7 +10,6 @@ console.timeEnd("B sync timing");
 function b(input) {
     for (let numIndex = 0; numIndex < input.instructions.length; numIndex++) {
 
-        // mark boards
         input.sets = markBoards(input.sets, input.instructions[numIndex]);
 
         if (input.sets.length === 1 && isWinner(input.sets[0])) {

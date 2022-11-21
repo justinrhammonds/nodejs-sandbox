@@ -8,7 +8,6 @@ console.timeEnd("A sync timing");
 function a(input) {
     for (let numIndex = 0; numIndex < input.instructions.length; numIndex++) {
 
-        // mark boards
         input.sets = markBoards(input.sets, input.instructions[numIndex]);
 
         let winner = getFirstWinner(input.sets);
