@@ -6,12 +6,12 @@ console.timeEnd("a");
 
 function a(input: number[]): number {
 
-    let positions: number[] = [...new Set(input)];
+    let maxPosition: number = input.sort((a,b) => a + b)[0];
     let fuels: number[] = [];
-    for (let i = 0; i < positions.length; i++) {
+    for (let i = 0; i <= maxPosition; i++) {
 
         let fuel = input.reduce((prev, curr) => {
-            return prev + Math.abs(curr - positions[i]);
+            return prev + Math.abs(curr - i);
         }, 0);
 
         fuels.push(fuel);

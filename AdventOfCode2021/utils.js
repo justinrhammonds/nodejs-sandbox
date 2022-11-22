@@ -2,6 +2,15 @@ function splitInputString(input) {
     return input.split(/\r?\n/).filter((i) => i !== '');
 }
 
+function summation(n) {
+  let sum = 0;
+  for (let i = 1; i <= n; i++) {
+    sum += i;
+  } 
+
+  return sum;
+}
+
 class Coordinate {
     constructor(x,y) {
         this.X = x;
@@ -10,5 +19,5 @@ class Coordinate {
 }
 
 module.exports = { 
-    splitInputString, Coordinate
+    splitInputString, Coordinate, summation
 }
